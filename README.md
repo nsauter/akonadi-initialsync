@@ -2,7 +2,7 @@
 The akonadi-initalisync tool can be used to setup a users account initally and synchronize it in a scripted fashion.
 This is useful for preparing workstations so they are ready once the user logs in.
 
-The script takes some parameters to adjust the per user settings, and reads the rest of the configuration from confgiuration file templates.
+The script takes some parameters to adjust the per user settings, and reads the rest of the configuration from configuration-file templates.
 
 After preparing the necessary configuration files, the script automatically starts dbus and akonadi, executes the sync, and then shuts akonadi and dbus down again.
 The script is fully blocking during this time, so it can easly be included in other scripts.
