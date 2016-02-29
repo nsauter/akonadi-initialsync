@@ -66,12 +66,17 @@ def fullSync(name):
 		logger.info("fullSync for {} was successfull.".format(name))
 		gobject.timeout_add(1, loop.quit)
 
-	while 1:
-	   try:
-		proxy = session_bus.get_object('org.freedesktop.Akonadi.Resource.{}'.format(name), "/")
-		break
-           except dbus.exceptions.DBusException:
-		time.sleep(1)
+    timeout = 0
+    while 1:
+        try:
+            proxy = session_bus.get_object('org.freedesktop.Akonadi.Resource.{}'.format(name), "/")
+            break
+        except dbus.exceptions.DBusException:
+            time.sleep(1)
+            timeout++
+            if timeout >= 10:
+                logger.critical("Failed to find the resource on dbus {}".format(name))
+                sys.exit(-1)
 
 	if not proxy.isOnline():
 		proxy.setOnline(True)
