@@ -60,3 +60,35 @@ The ldap server settings are located in:
 sync/templates/.kde/share/config/akonadi_ldap_resource_0rc
 sync/templates/.kde/share/config/kabldaprc
 ```
+
+# Database setup
+The database needs to contain a table for every user named by the UID parameter above, so for a user with the UID "doe", a table "doe" has to exist.
+The script does not setup this table and expects it to having been created alrady, i.e. like so:
+
+```
+USER=doe
+PASSWORD=Welcome2KolabSystems
+
+sudo /usr/sbin/mysqld& >/tmp/mysql.log 2>/tmp/mysql.err
+sleep 2
+
+sudo mysql --defaults-extra-file=/etc/mysql/debian.cnf <<EOF
+CREATE DATABASE $USER;
+GRANT ALL  ON $USER.* TO '$USER'@localhost IDENTIFIED BY '$PASSWORD';
+FLUSH PRIVILEGES;
+EOF
+```
+
+# Cleanup of Akonadi configuration and data
+These are the files/directories that need to be removed before retrying a synchronization.
+Note that this will remove all configuraton & data in akonadi.
+
+```
+rm -R ~/.kde/share/apps/akonadi_migration_agent
+rm -R ~/.kde/share/config/akonadi*
+rm -R ~/.local/share/akonadi
+rm -R ~/.config/akonadi
+```
+
+Additionally the users database table has to be removed.
+
