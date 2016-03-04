@@ -6,14 +6,14 @@ Default Identity=1580146192
 
 [Identity #0]
 Attach Vcard=false
-Default Domain=d1175b059ffc
-Dictionary=English ()
+Default Domain=my.domain
+Dictionary=English (United States of America)
 Disable Fcc=false
 Email Address={fullPrimaryEmail}
 Email Aliases={primaryEmail}
 Identity=Developer
 Image Location=
-Inline Signature=
+Inline Signature=Example Signature\nExample Signature
 Inlined Html=false
 Name={name}
 Pgp Auto Sign=false
@@ -22,4 +22,14 @@ Signature Enabled=false
 Signature Type=inline
 VCardFile=/home/developer/.kde4src/share/apps/kmail2/Developer.vcf
 X-FaceEnabled=false
+Organization=
+; Full key to be used for encryption and signing
+PGP Encryption Key=
+PGP Signing Key=
+; Fixed transport for this identity
+Transport=1351475431
+; Collection id's of the target folders
+Drafts=
+Fcc=
+Templates=
 uoid=1580146192
