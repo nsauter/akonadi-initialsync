@@ -23,6 +23,9 @@ sed -i "/Templates=*/d" $TARGETFILE
 sed -i "/Fcc=*/d" $TARGETFILE
 sed -i "/Drafts=*/d" $TARGETFILE
 sed -i "/Bcc=*/d" $TARGETFILE
+#Fix signature if enabled
 sed -i "s/Signature Type=inline/Signature Enabled=true\nSignature Type=inline/g" $TARGETFILE
+#Default to german dictionary if at default value
+sed -i "s/Dictionary=<default>/Dictionary=German (Germany)\nAutocorrection Language=de/g" $TARGETFILE
 
 echo "Identities migrated with transport: $TRANSPORT"
