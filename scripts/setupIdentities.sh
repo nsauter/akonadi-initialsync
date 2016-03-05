@@ -23,5 +23,6 @@ sed -i "/Templates=*/d" $TARGETFILE
 sed -i "/Fcc=*/d" $TARGETFILE
 sed -i "/Drafts=*/d" $TARGETFILE
 sed -i "/Bcc=*/d" $TARGETFILE
+sed -i "s/Signature Type=inline/Signature Enabled=true\nSignature Type=inline/g" $TARGETFILE
 
 echo "Identities migrated with transport: $TRANSPORT"
