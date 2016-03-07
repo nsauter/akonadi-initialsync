@@ -60,11 +60,22 @@ def fullSync(name):
     DBusGMainLoop(set_as_default=True)
     session_bus = dbus.SessionBus()
 
-    def status(status, msg):
+    def statusCallback(status, msg):
         logger.debug("%i: %s"%(status, msg))
         if status == 0:
-            logger.info("fullSync for {} was successfull.".format(name))
+            logger.info("status switched to idle on {}.".format(name))
+
+    def synchronizedCallback():
+        logger.debug("%i: %s"%(status, msg))
+        if status == 0:
+            logger.info("fullSync for {} complete.".format(name))
             gobject.timeout_add(1, loop.quit)
+
+    def warningCallback(msg):
+        logger.info("Warning during sync: %s"%(msg))
+
+    def errorCallback(msg):
+        logger.info("Error during sync: %s"%(msg))
 
     timeout = 0
     while 1:
@@ -86,7 +97,10 @@ def fullSync(name):
            logger.critical("Kolab server is not available.")
            sys.exit(-1)
 
-    proxy.connect_to_signal("status", status, dbus_interface="org.freedesktop.Akonadi.Agent.Status")
+    proxy.connect_to_signal("status", statusCallback, dbus_interface="org.freedesktop.Akonadi.Agent.Status")
+    proxy.connect_to_signal("synchronized", synchronizedCallback, dbus_interface="org.freedesktop.Akonadi.Resource")
+    proxy.connect_to_signal("warning", warningCallback, dbus_interface="org.freedesktop.Akonadi.Agent.Status")
+    proxy.connect_to_signal("error", errorCallback, dbus_interface="org.freedesktop.Akonadi.Agent.Status")
     proxy.synchronize(dbus_interface='org.freedesktop.Akonadi.Resource')
 
     logger.info("fullSync for {} started".format(name))
