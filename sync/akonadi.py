@@ -66,10 +66,8 @@ def fullSync(name):
             logger.info("status switched to idle on {}.".format(name))
 
     def synchronizedCallback():
-        logger.debug("%i: %s"%(status, msg))
-        if status == 0:
-            logger.info("fullSync for {} complete.".format(name))
-            gobject.timeout_add(1, loop.quit)
+        logger.info("fullSync for {} complete.".format(name))
+        gobject.timeout_add(1, loop.quit)
 
     def warningCallback(msg):
         logger.info("Warning during sync: %s"%(msg))
