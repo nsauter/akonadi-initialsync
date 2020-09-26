@@ -9,7 +9,7 @@
 """
 
 import argparse
-from email.Utils import formataddr
+from email.utils import formataddr
 import logging
 import os
 import subprocess
@@ -44,7 +44,7 @@ with DBusServer():
 	logging.info("set kwallet password")
 	kwalletbinding.kwallet_put("imap", akonadi_resource_name+"rc", password)
 
-	with akonadi.AkonadiServer(open("akonadi.log", "w"), open("akonadi.err", "w")):
+	with akonadi.AkonadiServer(open("/tmp/akonadi.log", "w"), open("/tmp/akonadi.err", "w")):
             logging.info("trigger fullSync")
             akonadi.fullSync(akonadi_resource_name)
 

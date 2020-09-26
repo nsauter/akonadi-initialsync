@@ -6,12 +6,14 @@
     Date: 2015-12-02
     Licence: GPL-2+
 """
+
 import sys
 import time
 import logging
 import subprocess
+import os
 
-import gobject
+from gi.repository import GObject as gobject
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
 
@@ -33,8 +35,9 @@ class AkonadiServer():
         subprocess.Popen(["akonadictl", "start"], stdout = self.stdout, stderr = self.stderr)
     def __exit__(self, type, value, traceback):
         serverLog.info("stopping akonadi ...")
-        subprocess.Popen(["akonadictl", "stop"], stdout = self.stdout, stderr = self.stderr)
-        self.waitForEnd()
+        os.system('akonadictl stop')
+#        subprocess.Popen(["akonadictl", "stop"], stdout = self.stdout, stderr = self.stderr)
+#        self.waitForEnd()
 
     def waitForEnd(self):
         """akonadi takes a while to shutdown, after stop is send"""
@@ -42,10 +45,10 @@ class AkonadiServer():
         while status != "stopped":
             p = subprocess.Popen(["akonadictl", "status"], stderr=subprocess.PIPE)
             for line in p.stderr:
-                if line.startswith("Akonadi Server:"):
-                    status = line.split(":")[1].strip()
-                    if status == "stopped":
-                        break
+                if line.startswith(b'Akonadi Server: stopped'):
+#                    status = line.split(":")[1].strip()
+#                    if status == "stopped":
+                    break
             time.sleep(1)
 
 

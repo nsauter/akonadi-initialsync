@@ -25,22 +25,22 @@ def setupConfigDirs(dirname, fullPrimaryEmail, primaryEmail, name, uid, password
         os.mkdir(dirname)
     except OSError as e:
         if e.errno != 17:
-	   raise
+            raise
     for path, _, files in os.walk(basedir):
-	relpath = os.path.relpath(path,basedir)
-	try:
-		os.mkdir(os.path.join(dirname, relpath))
-	except OSError as e:
-             if e.errno != 17:
-                 raise
+        relpath = os.path.relpath(path,basedir)
+        try:
+            os.mkdir(os.path.join(dirname, relpath))
+        except OSError as e:
+            if e.errno != 17:
+                raise
         for fname in files:
             if os.path.splitext(fname)[1] in (".kwl",):
-		shutil.copy(os.path.join(path,fname), os.path.join(dirname, relpath, fname))
+                shutil.copy(os.path.join(path,fname), os.path.join(dirname, relpath, fname))
                 continue
             with open(os.path.join(path,fname),"r") as f:
-		with open(os.path.join(dirname, relpath, fname),"w") as t:
-			content = f.read().format(**d)
-			t.write(content)
+                with open(os.path.join(dirname, relpath, fname),"w") as t:
+                    content = f.read().format(**d)
+                    t.write(content)
 
 if __name__ == "__main__":
 	setupConfigDirs(".", "John Doe <doe@example.org>", "doe@example.org", "John Doe", "doe", "Welcome2KolabSystems")
